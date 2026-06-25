@@ -106,7 +106,44 @@ app.post('/webhook', async (req, res) => {
 
   res.sendStatus(200);
 });
+app.post('/set-webhook', async (req, res) => {
+  const { url } = req.body;
+  if (!url) {
+    return res.status(400).json({ error: 'url is required' });
+  }
 
+  const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/setWebhook`;
+  const response = await fetch(telegramUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url, allowed_updates: ['message', 'pre_checkout_query'] }),
+  });
+  const result = await response.json();
+  res.json(result);
+});
+
+app.post('/set-menu', async (req, res) => {
+  const { chat_id, url } = req.body;
+  if (!url) {
+    return res.status(400).json({ error: 'url is required' });
+  }
+
+  const menuButton = {
+    type: 'web_app',
+    text: 'Конструктор браслетов',
+    web_app: { url },
+  };
+
+  const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/setChatMenuButton`;
+  const body = chat_id ? { chat_id, menu_button: menuButton } : { menu_button: menuButton };
+  const response = await fetch(telegramUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const result = await response.json();
+  res.json(result);
+});
 app.get('/admin', async (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.send(`<!DOCTYPE html>

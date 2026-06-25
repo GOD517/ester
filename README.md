@@ -17,6 +17,19 @@ npm run dev
 
 Открой `http://localhost:5173` и тестируй внутри Telegram с HTTPS.
 
+## GitHub Pages
+
+Этот проект можно автоматически деплоить на GitHub Pages из ветки `master`.
+- Сборка публикуется в ветку `gh-pages`.
+- После установки GitHub Pages в настройках репозитория указывай `gh-pages` как источник.
+- После успешного деплоя приложение будет доступно по URL:
+
+```text
+https://GOD517.github.io/ester/
+```
+
+Для Telegram Mini App в BotFather укажи именно этот HTTPS-адрес как Web App URL.
+
 ### Быстрый ngrok
 
 1. Установи ngrok: https://ngrok.com/
